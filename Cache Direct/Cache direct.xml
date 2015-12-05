@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2015-12-05 14:54:52">
+<Routine name="SeriesDelphi" type="MAC" languagemode="0" timestamp="63891,50434.754515"><![CDATA[
+CreateGlobal
+   /// Створення глобалу з іменем ^Series 
+   ///та заповнення його інформацією про серіали
+   set ^Series("Arrow") = "Spoiled billionaire playboy Oliver Queen is missing and presumed dead when his yacht is lost at sea. He returns five years later a changed man, determined to clean up the city as a hooded vigilante armed with a bow."
+   set ^Series("Arrow", 2012) = $lb("Stephen Amell", "Katie Cassidy", "David Ramsey", "Willa Holland", "Paul Blackthorne", "Susanna Thompson", "Emily Bett Rickards")
+ 
+   set ^Series("Knight rider") = "A lone crimefighter battles the forces of evil with the help of an indestructible and artificially intelligent supercar."
+   set ^Series("Knight rider", 2008) = $lb("Justin Bruening", "Deanna Russo", "Bruce Davison", "Sydney Tamiia Poitier", "Yancey Arias")
+   set ^Series("Knight rider", 1982) = $lb("David Hasselhoff", "Edward Mulhare", "Richard Basehart", "Patricia McPherson")
+
+   set ^Series("Bones") = "A forensic anthropologist and a cocky FBI agent build a team to investigate death causes. And quite often, there isn't more to examine than rotten flesh or mere bones."
+   set ^Series("Bones", 2008) = $lb("Emily Deschanel", "David Boreanaz", "Michaela Conlin", "T.J. Thyne", "Tamara Taylor", "John Francis Daley")
+ 
+   set ^Series("Game of Thrones") = "Seven noble families fight for control of the mythical land of Westeros."
+   set ^Series("Game of Thrones", 2010) = $lb("Lena Headey", "Peter Dinklage", "Emilia Clarke", "Maisie Williams", "Kit Harington", "Iain Glen", "Sophie Turner") 
+   quit
+ 
+GetAllSeriesNames 
+   ///функція заповнює масив назв серіалів
+   Set x="" 
+   set PLIST = 0
+   For { 
+      set x = $order(^Series(x))
+      Quit:x="" 
+      set PLIST = $increment(PLIST)
+      set PLIST(PLIST) = x 
+   } 
+   quit
+ 
+GetYear
+   //функція заповнює масив з роками виходу серіалу по його імені
+   set out = 0
+   if $data(^Series(PLIST(1)))#10 = 1 {
+      set x = ""
+      for {
+         set x = $Next(^Series(PLIST(1), x))
+         quit:x=-1
+         set out = $increment(out)
+         set out(out) = x
+      } 
+    }
+   merge PLIST = out
+   quit
+ 
+GetActorsListForSeries(aName, aYear)
+   //функція повертає список акторів у серіалі певного року виходу
+   if $data(^Series(aName, aYear))#10 = 1 {
+      set VALUE = $listtostring($get(^Series(aName, aYear)),"/")
+      write VALUE
+   }
+   else {
+      set VALUE = ""
+   }
+   quit
+]]></Routine>
+
+
+<Project name="SeriesDelphi" LastModified="2015-12-05 12:57:36.134086" Target="^SeriesDelphi" TargetType="2">
+  <Items>
+    <ProjectItem name="SeriesDelphi.MAC" type="MAC"></ProjectItem>
+  </Items>
+</Project>
+</Export>
