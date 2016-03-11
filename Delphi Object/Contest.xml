@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2015-12-15 23:30:27">
+<Class name="Contest.Company">
+<Super>%SerialObject,%Populate</Super>
+<TimeChanged>63870,76725.007473</TimeChanged>
+<TimeCreated>63870,74625.289224</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="Company()"/>
+</Property>
+
+<Property name="Country">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(Contest.PopulateUtils).Country()"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>CompanyState</State>
+<StreamLocation>^Contest.CompanyS</StreamLocation>
+<Data name="CompanyState">
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>Country</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Contest.Group">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63871,4742.752248</TimeChanged>
+<TimeCreated>63870,74374.048445</TimeCreated>
+
+<Property name="Topic">
+<Type>Contest.Topic</Type>
+</Property>
+
+<Property name="Leader">
+<Type>Contest.Participant</Type>
+</Property>
+
+<Property name="Participants">
+<Type>Contest.Participant</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Group</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Contest.GroupD</DataLocation>
+<DefaultData>GroupDefaultData</DefaultData>
+<IdLocation>^Contest.GroupD</IdLocation>
+<IndexLocation>^Contest.GroupI</IndexLocation>
+<StreamLocation>^Contest.GroupS</StreamLocation>
+<ExtentSize>10</ExtentSize>
+<Data name="GroupDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Topic</Value>
+</Value>
+<Value name="3">
+<Value>Leader</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<Property name="Leader">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="Topic">
+<Selectivity>11.1111%</Selectivity>
+<AverageFieldSize>1.6</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Contest.Human">
+<Abstract>1</Abstract>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63871,1392.489994</TimeChanged>
+<TimeCreated>63870,74456.536</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="FirstName()"/>
+</Property>
+
+<Property name="Surname">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="LastName()"/>
+</Property>
+
+<Property name="FullName">
+<Type>%String</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode> set {*} = {Name}_" "_{Surname}</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+</Property>
+
+<Property name="Photo">
+<Type>%GlobalBinaryStream</Type>
+<Parameter name="POPSPEC" value="##class(Contest.PopulateUtils).GenPhoto()"/>
+<Parameter name="STORAGE" value="GLOBAL"/>
+</Property>
+
+<Property name="Contacts">
+<Type>%String</Type>
+<Collection>array</Collection>
+<Parameter name="POPSPEC" value="##class(Contest.PopulateUtils).GenNumber():2:##class(Contest.PopulateUtils).GenType()"/>
+</Property>
+
+<Method name="FullNameGet">
+<CodeMode>expression</CodeMode>
+<ReturnType>%String</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[..Name_" "_..Surname
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Contest.HumanD</DataLocation>
+<DefaultData>HumanDefaultData</DefaultData>
+<IdLocation>^Contest.HumanD</IdLocation>
+<IndexLocation>^Contest.HumanI</IndexLocation>
+<StreamLocation>^Contest.HumanS</StreamLocation>
+<Data name="Contacts">
+<Attribute>Contacts</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"Contacts"</Subscript>
+</Data>
+<Data name="HumanDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Surname</Value>
+</Value>
+<Value name="4">
+<Value>Photo</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Project name="Contest" LastModified="2015-11-15 15:26:58.965715" Target="##class(Contest.PopulateUtils).Rf()" TargetType="2">
+  <Items>
+    <ProjectItem name="Contest.Company" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.Group" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.Human" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.Participant" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.PopulateUtils" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.Progress" type="CLS"></ProjectItem>
+    <ProjectItem name="Contest.Topic" type="CLS"></ProjectItem>
+  </Items>
+  <BreakPoints>
+    <BreakPoint Routine="Contest.PopulateUtils.CLS" Offset="Rf+3"></BreakPoint>
+  </BreakPoints>
+</Project>
+
+
+<Class name="Contest.Participant">
+<Super>Contest.Human</Super>
+<TimeChanged>63871,57789.230957</TimeChanged>
+<TimeCreated>63870,74411.802449</TimeCreated>
+
+<Property name="Group">
+<Type>Contest.Group</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Participants</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="GroupIndex">
+<Properties>Group</Properties>
+</Index>
+
+<Property name="Company">
+<Type>Contest.Company</Type>
+</Property>
+
+<Method name="CreateParticipant">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>Name,Surname,Photo:%BinaryStream,Group:%Integer,CompanyName,CompanyCountry</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<SqlProc>1</SqlProc>
+<Implementation><![CDATA[
+	set newPar = ##class(Contest.Participant).%New()	
+	set newPar.Name = Name
+	set newPar.Surname = Surname
+	if $IsObject(Photo) {
+		set newPar.Photo = ##class(%Library.GlobalBinaryStream).%New()
+		set sc = newPar.Photo.CopyFrom(Photo)
+		if $$$ISERR(sc) quit sc
+	}
+		
+	if ##class(Contest.Group).%ExistsId(Group) {
+	   set group = ##class(Contest.Group).%OpenId(Group)	   
+	   set newPar.Group = group
+	   set group = ""
+	}
+	
+	set newComp = ##class(Contest.Company).%New()
+	set newComp.Name = CompanyName
+	set newComp.Country = CompanyCountry
+	set newPar.Company =newComp
+	set sc = newPar.%Save()
+	write sc
+	quit sc
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>ParticipantDefaultData</DefaultData>
+<ExtentSize>30</ExtentSize>
+<Data name="ParticipantDefaultData">
+<Subscript>"Participant"</Subscript>
+<Value name="1">
+<Value>Group</Value>
+</Value>
+<Value name="2">
+<Value>Company</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>21</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.7</AverageFieldSize>
+</Property>
+<Property name="Company">
+<Selectivity>3.3333%,Country:20.0000%,Name:3.3333%</Selectivity>
+<AverageFieldSize>26.9,Country:6.47,Name:16.43</AverageFieldSize>
+</Property>
+<Property name="FullName">
+<Selectivity>3.3333%</Selectivity>
+<AverageFieldSize>12.87</AverageFieldSize>
+</Property>
+<Property name="Group">
+<Selectivity>11.1111%</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>3.7037%</Selectivity>
+<AverageFieldSize>5.4</AverageFieldSize>
+</Property>
+<Property name="Photo">
+<Selectivity>3.3333%</Selectivity>
+</Property>
+<Property name="Surname">
+<Selectivity>3.7037%</Selectivity>
+<AverageFieldSize>6.47</AverageFieldSize>
+</Property>
+<SQLMap name="GroupIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Contest.PopulateUtils">
+<TimeChanged>63871,52160.947022</TimeChanged>
+<TimeCreated>63870,75667.555883</TimeCreated>
+
+<Method name="CreateData">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	do ##class(Contest.Topic).%KillExtent()
+	do ##class(Contest.Progress).%KillExtent()
+	do ##class(Contest.Group).%KillExtent()
+	do ##class(Contest.Human).%KillExtent()
+	
+	do ##class(Contest.Topic).Populate(20)	
+	do ##class(Contest.Progress).Populate(100)
+	do ##class(Contest.Group).Populate(10)
+	do ##class(Contest.Participant).Populate(30)
+	
+	&sql(DECLARE C1 CURSOR FOR
+    	 SELECT %ID
+    	   INTO :id
+	       FROM Contest."Group")
+
+ 	&sql(OPEN C1)
+ 	&sql(FETCH C1)
+
+ 	While (SQLCODE = 0) {
+    	set gr = ##class(Contest.Group).%OpenId(id)
+    	set gr.Leader = gr.Participants.GetAt(1)
+    	do gr.%Save()    	     
+   		&sql(FETCH C1)
+ 	}
+    
+ 	&sql(CLOSE C1)
+]]></Implementation>
+</Method>
+
+<Method name="GenType">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t=$lb("home","cell","work")
+ 	quit $li(t,$r($ll(t))+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenNumber">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t=$lb("066","050","063","093","096","098")
+	quit "("_$li(t,$r($ll(t))+1)_")"_(100+$r(899))_"-"_(10+$r(89))_"-"_(10+$r(89))
+]]></Implementation>
+</Method>
+
+<Method name="Country">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t=$lb("Ukraine","Poland","Hungary","Slovak","Belarus")
+ 	quit $li(t,$r($ll(t))+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenTechnology">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t=$lb(".NET","Java","JavaScript","Delphi","Python","SOAP","ZEN","HTML","CSP","Prolog")
+ 	quit $li(t,$r($ll(t))+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenPhoto">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%GlobalBinaryStream</ReturnType>
+<Implementation><![CDATA[
+	
+	set path = "D:\Temp\img"_$r(13)_".jpg"
+	set tempstream = ##class(%Library.FileBinaryStream).%New()
+	set tempstream.Filename = path
+	set stream = ##class(%Library.GlobalBinaryStream).%New()
+	do stream.CopyFrom(tempstream)
+	quit stream
+]]></Implementation>
+</Method>
+
+<Method name="Tt">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	//set g = ##class(Contest.Group).%OpenId(3)
+	//set p = g.Participants.GetAt(1)
+	for i=1:1:30 {
+	set p = ##class(Contest.Participant).%OpenId(i)	
+	set p.Photo = ##class(%GlobalBinaryStream).%New()
+	do p.Photo.CopyFrom(##class(Contest.PopulateUtils).GenPhoto())
+	write p.%Save()
+	if i = 5 
+	{
+		write p.Photo.Read(10)
+		kill p
+		set p = ##class(Contest.Participant).%OpenId(5)
+		do p.Photo.Rewind()
+		write p.Photo.Read(10)
+		}
+	}
+	set p = ##class(Contest.Participant).%OpenId(5)
+	do p.Photo.Rewind()
+	write p.Photo.Read(10)
+]]></Implementation>
+</Method>
+
+<Method name="Rf">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	set g = ##class(Contest.Participant).%OpenId(23)
+	set key = g.Contacts.Next("")
+	while key '= "" {
+		write key, " = ", g.Contacts.GetAt(key), !
+		set key = g.Contacts.Next(key)
+		}
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Contest.Progress">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63871,4742.721724</TimeChanged>
+<TimeCreated>63870,74249.451822</TimeCreated>
+
+<Property name="TS">
+<Type>%TimeStamp</Type>
+</Property>
+
+<Property name="Note">
+<Type>%Text</Type>
+<Parameter name="MAXLEN" value="1000"/>
+<Parameter name="POPSPEC" value="Mission()"/>
+</Property>
+
+<Property name="Topic">
+<Type>Contest.Topic</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Progress</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Progress")</DataLocation>
+<DefaultData>ProgressDefaultData</DefaultData>
+<IdLocation>^Contest.TopicC("Progress")</IdLocation>
+<IndexLocation>^Contest.ProgressI</IndexLocation>
+<StreamLocation>^Contest.ProgressS</StreamLocation>
+<ExtentSize>100</ExtentSize>
+<Data name="ProgressDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>TS</Value>
+</Value>
+<Value name="3">
+<Value>Note</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>5.5</AverageFieldSize>
+</Property>
+<Property name="Note">
+<Selectivity>1.0000%</Selectivity>
+<AverageFieldSize>93.98</AverageFieldSize>
+</Property>
+<Property name="TS">
+<Selectivity>1.0000%</Selectivity>
+<AverageFieldSize>19</AverageFieldSize>
+</Property>
+<Property name="Topic">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>1.58</AverageFieldSize>
+</Property>
+<Property name="childsub">
+<Selectivity>1.0000%</Selectivity>
+<AverageFieldSize>1.92</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-8</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Contest.Topic">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63871,4742.588035</TimeChanged>
+<TimeCreated>63870,74322.914834</TimeCreated>
+
+<Property name="Progress">
+<Type>Contest.Progress</Type>
+<Cardinality>children</Cardinality>
+<Inverse>Topic</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPORDER" value="2"/>
+<Parameter name="POPSPEC" value=".GenTopic()"/>
+</Property>
+
+<Property name="Technologies">
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="POPORDER" value="1"/>
+<Parameter name="POPSPEC" value="##class(Contest.PopulateUtils).GenTechnology():2"/>
+</Property>
+
+<Method name="GenTopic">
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	if ..Technologies.Count() = 0 
+	   do ..Technologies.Insert(##class(Contest.PopulateUtils).GenTechnology())
+	set t=$lb("Generating","Creating","Assembling","Modelling","Disassembling")
+	set str = ""
+	for i=1:1:..Technologies.Count()
+	{
+		set str = str_..Technologies.GetAt(i)_", "
+		}	
+	quit $li(t,$r($ll(t))+1)_" project using "_$extract(str, 1, *-2)
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Contest.TopicD</DataLocation>
+<DefaultData>TopicDefaultData</DefaultData>
+<IdLocation>^Contest.TopicD</IdLocation>
+<IndexLocation>^Contest.TopicI</IndexLocation>
+<StreamLocation>^Contest.TopicS</StreamLocation>
+<ExtentSize>20</ExtentSize>
+<Data name="TopicDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Technologies</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.55</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>36.45</AverageFieldSize>
+</Property>
+<Property name="Technologies">
+<Selectivity>5.5556%</Selectivity>
+<AverageFieldSize>12.9</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+</Export>
