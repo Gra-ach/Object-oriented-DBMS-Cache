@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2016-05-03 16:13:08">
+<Class name="Shopping.ContactInfo">
+<Description>
+Контактна інформація</Description>
+<Super>%SerialObject,%Populate</Super>
+<TimeChanged>64041,56607.106287</TimeChanged>
+<TimeCreated>64041,56578.008374</TimeCreated>
+
+<Property name="Email">
+<Description>
+e-mail контактного центру</Description>
+<Type>%String</Type>
+<Collection>array</Collection>
+</Property>
+
+<Property name="www">
+<Description>
+інтернет адреса</Description>
+<Type>%String</Type>
+</Property>
+
+<Property name="Address">
+<Description>
+фізична адреса</Description>
+<Type>%String</Type>
+<Collection>list</Collection>
+<Parameter name="POPSPEC" value="Street():4"/>
+</Property>
+
+<Property name="Phones">
+<Description>
+Контактні телефони</Description>
+<Type>%String</Type>
+<Collection>array</Collection>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>ContactInfoState</State>
+<StreamLocation>^Shopping.ContactInfoS</StreamLocation>
+<Data name="ContactInfoState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>Email</Value>
+</Value>
+<Value name="2">
+<Value>www</Value>
+</Value>
+<Value name="3">
+<Value>Address</Value>
+</Value>
+<Value name="4">
+<Value>Phones</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Shopping.Goods">
+<Description>
+товар</Description>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64041,57195.406259</TimeChanged>
+<TimeCreated>64041,56562.168155</TimeCreated>
+
+<Property name="ShoppingTrip">
+<Type>Shopping.Record</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Goods</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Name">
+<Description>
+назва товару</Description>
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(Shopping.PopUtils).GenProductName()"/>
+</Property>
+
+<Property name="Quantity">
+<Description>
+кількість товару</Description>
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="10"/>
+<Parameter name="MINVAL" value="1"/>
+</Property>
+
+<Property name="Price">
+<Description>
+вартість одиниці товару</Description>
+<Type>%Float</Type>
+<Parameter name="MAXVAL" value="100.00"/>
+<Parameter name="MINVAL" value="0.01"/>
+</Property>
+
+<Property name="Cost">
+<Description>
+загальна вартість</Description>
+<Type>%Float</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode>set {*} = ##class(Shopping.Goods).CalcCost({Price}, {Quantity})</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+</Property>
+
+<Method name="CostGet">
+<CodeMode>expression</CodeMode>
+<ReturnType>%Float</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[##class(Shopping.Goods).CalcCost(..Price, ..Cost)
+]]></Implementation>
+</Method>
+
+<Method name="CalcCost">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>price:%Float,qty:%Integer</FormalSpec>
+<ReturnType>%Float</ReturnType>
+<Implementation><![CDATA[	q price*qty
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Goods")</DataLocation>
+<DefaultData>GoodsDefaultData</DefaultData>
+<IdLocation>^Shopping.RecordC("Goods")</IdLocation>
+<IndexLocation>^Shopping.GoodsI</IndexLocation>
+<StreamLocation>^Shopping.GoodsS</StreamLocation>
+<ExtentSize>49</ExtentSize>
+<Data name="GoodsDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Quantity</Value>
+</Value>
+<Value name="4">
+<Value>Price</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>5.53</AverageFieldSize>
+</Property>
+<Property name="Cost">
+<Selectivity>2.1277%</Selectivity>
+<AverageFieldSize>2.82</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>5.5556%</Selectivity>
+<AverageFieldSize>6.49</AverageFieldSize>
+</Property>
+<Property name="Price">
+<Selectivity>2.5641%</Selectivity>
+<AverageFieldSize>1.98</AverageFieldSize>
+</Property>
+<Property name="Quantity">
+<Selectivity>10.0000%</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<Property name="ShoppingTrip">
+<Selectivity>5.2632%</Selectivity>
+<AverageFieldSize>1.71</AverageFieldSize>
+</Property>
+<Property name="childsub">
+<Selectivity>2.0408%</Selectivity>
+<AverageFieldSize>1.82</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Project name="Shopping" LastModified="2016-05-03 16:13:08.518674" Target="##class(Shopping.PopUtils).PopulateData()" TargetType="2">
+  <Items>
+    <ProjectItem name="Shopping.PopUtils" type="CLS"></ProjectItem>
+    <ProjectItem name="Shopping.Shop" type="CLS"></ProjectItem>
+    <ProjectItem name="Shopping.Record" type="CLS"></ProjectItem>
+    <ProjectItem name="Shopping.Goods" type="CLS"></ProjectItem>
+    <ProjectItem name="Shopping.ContactInfo" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="Shopping.PopUtils">
+<Description>
+контейнер додаткових методів для створення об’єктів</Description>
+<TimeChanged>64041,58363.715466</TimeChanged>
+<TimeCreated>64041,56438.451697</TimeCreated>
+
+<Method name="GenShopName">
+<Description>
+генерація назви магазина</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t = $lb("Мегамаркет", "Ашан", "Велика кишеня", "Фора", "Амстор", "Фуршет", "Новус")
+	if $Data(^Shopping.ShopD) = 0
+	{
+		quit $lg(t, 1)
+	}
+	else 
+	{	
+	quit $lg(t, ^Shopping.ShopD+1)
+	}
+]]></Implementation>
+</Method>
+
+<Method name="GenProductName">
+<Description>
+генерація назви товару</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t = $lb("Хліб", "Торт", "Мінеральна вода", "Морозиво", "Йогурт", "Маслянка", "Глазурований сирок", "Кефір", "Вершкове масло", "Молоко", "Сметана", "Сир", "Сік", "Здобна булочка", "Батон", "Сирний десерт", "Чай", "Кава", "Сухі вершки", "Рослинна олія")
+	quit $lg(t, $r($ll(t)-1)+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenCompanyName">
+<Description>
+генерація назви компанії</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>name:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+ set t = $lb("com", "net", "com.ua", "gov.ua")
+ quit ##class(Shopping.PopUtils).Translit(name)_"."_$lg(t, $r($ll(t)-1)+1)
+]]></Implementation>
+</Method>
+
+<Method name="Translit">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>src:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set temp = $translate(src, "АБВГДЕЗИIЙКЛМНОПРСТУФабвгдезиїйклмнопрстуфь ", 
+	 "аbvhdezyiyklmnoprstufаbvhdezyiiklmnoprstuf")
+	set temp = $replace(temp, "ж", "zh") 
+	set temp = $replace(temp, "х", "kh") 
+	set temp = $replace(temp, "ц", "ts") 
+	set temp = $replace(temp, "ч", "ch") 
+	set temp = $replace(temp, "ш", "sh") 
+	set temp = $replace(temp, "щ", "shch")
+	set temp = $replace(temp, "ю", "iu")
+	set temp = $replace(temp, "я", "ia")
+	set temp = $replace(temp, "Х", "kh")
+	set temp = $replace(temp, "Ч", "ch")
+	quit temp
+]]></Implementation>
+</Method>
+
+<Method name="PopulateData">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+   Do ##class(Shopping.Shop).Populate(5, 1)   	   
+   Do ##class(Shopping.Record).Populate(20, 1)
+   Do ##class(Shopping.Goods).Populate(50, 1)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Shopping.Record">
+<Description>
+опис завдання на один похід в магазин</Description>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64041,57195.330987</TimeChanged>
+<TimeCreated>64041,56538.358794</TimeCreated>
+
+<Property name="Date">
+<Type>%Date</Type>
+<SqlFieldName>ShoppingDate</SqlFieldName>
+<Parameter name="MAXVAL" value="$zdateh(&quot;02/01/2017&quot;)"/>
+<Parameter name="MINVAL" value="$H"/>
+</Property>
+
+<Property name="Goods">
+<Description>
+дата здійснення походу
+Товари, які необхідно купити</Description>
+<Type>Shopping.Goods</Type>
+<Cardinality>children</Cardinality>
+<Inverse>ShoppingTrip</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Shop">
+<Description>
+магазин, в якому будуть робитися покупки</Description>
+<Type>Shopping.Shop</Type>
+</Property>
+
+<Query name="GetShoppingRecords">
+<Description>
+повернення усіх походів до магазину</Description>
+<Type>%SQLQuery</Type>
+<SqlProc>1</SqlProc>
+<SqlQuery><![CDATA[SELECT %ID, 
+               ShoppingDate, 
+               Shop->ID as ShopId, 
+               Shop->Name, 
+               Shop->Contacts_www 
+   FROM Record]]></SqlQuery>
+<SqlView>1</SqlView>
+<SqlViewName>ShoppingRecords</SqlViewName>
+<Parameter name="CONTAINID" value="1"/>
+<Parameter name="ROWSPEC" value="%ID:%String:ID,ShoppingDate:%Date:Дата покупки,ShopId:%String:ID,Name:%String:Назва магазину,Contacts_www:%String:Internet адреса магазину"/>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Shopping.RecordD</DataLocation>
+<DefaultData>RecordDefaultData</DefaultData>
+<IdLocation>^Shopping.RecordD</IdLocation>
+<IndexLocation>^Shopping.RecordI</IndexLocation>
+<StreamLocation>^Shopping.RecordS</StreamLocation>
+<ExtentSize>20</ExtentSize>
+<Data name="RecordDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Date</Value>
+</Value>
+<Value name="3">
+<Value>Shop</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.55</AverageFieldSize>
+</Property>
+<Property name="Date">
+<Selectivity>5.5556%</Selectivity>
+<AverageFieldSize>5</AverageFieldSize>
+</Property>
+<Property name="Shop">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Shopping.Shop">
+<Description>
+магазин у якому робляться покупки</Description>
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64041,57195.286992</TimeChanged>
+<TimeCreated>64041,56518.797416</TimeCreated>
+
+<Property name="Name">
+<Description>
+назва магазину</Description>
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(Shopping.PopUtils).GenShopName()"/>
+</Property>
+
+<Property name="Contacts">
+<Description>
+контактна інформація магазину</Description>
+<Type>Shopping.ContactInfo</Type>
+</Property>
+
+<Method name="OnPopulate">
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+ 	set company = ##class(Shopping.PopUtils).GenCompanyName(..Name)
+ 	set ..Contacts.www = "www."_company
+ 	do ..Contacts.Phones.Clear()
+ 	do ..Contacts.Email.Clear()
+ for i = "sales", "humanresources", "headquarters", "hotline"
+ 	{
+	    do ..Contacts.Phones.SetAt(##class(%Library.PopulateUtils).Integer(1000000, 9999999), i)
+	    do ..Contacts.Email.SetAt(i_"@"_company, i)	 
+	}
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="GetShopAddresses">
+<Description>
+повертає усі адреси магазину</Description>
+<Type>%Query</Type>
+<FormalSpec>ShopID:%Numeric</FormalSpec>
+<SqlProc>1</SqlProc>
+<Parameter name="ROWSPEC" value="Street:%String:Адреса"/>
+</Query>
+
+<Method name="GetShopAddressesExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,ShopID:%Numeric]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	&sql(select s.Contacts_address into :list 
+ 		 from Shopping.Shop s
+ 		 where s.ID = :ShopID)
+ 	IF SQLCODE '= 0 {
+ 		quit $$$ERROR(SQLCODE,"Помилка в тексті запиту") 
+}
+ 	set qHandle = $lb(list, 1)
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetShopAddressesClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>GetShopAddressesExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set qHandle=""
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetShopAddressesFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>GetShopAddressesExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set rs=$get(qHandle)
+	if $ll($li(rs,1))=0 
+	{
+		set Row=""
+		set AtEnd=1
+		quit $$$OK
+	 }
+
+	 if $li(rs,2) <= $ll($li(rs,1)) {
+ 		set Row=$lb($li($li(rs, 1), $li(rs,2)))
+ 		set AtEnd=0
+ 		set $li(qHandle,2) = $li(rs,2)+1
+ 	} else {
+ 		set Row=""
+ 		set AtEnd=1
+ 	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Query name="GetAllEmails">
+<Description>
+повертає всі адреси електронних пошт</Description>
+<Type>%Query</Type>
+<FormalSpec>ShopID:%Numeric</FormalSpec>
+<SqlProc>1</SqlProc>
+<Parameter name="ROWSPEC" value="Type:%String:Тип адреси,Email:%String:Електронна адреса"/>
+</Query>
+
+<Method name="GetAllEmailsExecute">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,ShopID:%Numeric]]></FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set shop = ##class(Shopping.Shop).%OpenId(ShopID)
+	if '$IsObject(shop) quit $$$ERROR()
+	Set key = ""
+	Do {
+ 		Set email = shop.Contacts.Email.GetNext(.key)
+ 		If (email '= "") {
+ 			set $li(qHandle, *+1) = $lb(key, email)
+ 		}
+ 	} While (key '= "")
+	kill ^||iter
+	set ^||iter = 1
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetAllEmailsClose">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary]]></FormalSpec>
+<PlaceAfter>GetAllEmailsExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	Set qHandle=""
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GetAllEmailsFetch">
+<ClassMethod>1</ClassMethod>
+<FormalSpec><![CDATA[&qHandle:%Binary,&Row:%List,&AtEnd:%Integer=0]]></FormalSpec>
+<PlaceAfter>GetAllEmailsExecute</PlaceAfter>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	set rs=$get(qHandle)
+	if $ll(rs)=0 {
+		set Row=""
+ 		set AtEnd=1
+		quit $$$OK
+	 }
+
+ 	if ^||iter <= $ll(rs) {
+		set Row=$li(rs, ^||iter)
+		set AtEnd=0
+		set ^||iter = $increment(^||iter)
+	} else {
+		set Row=""
+		set AtEnd=1
+	}
+	Quit $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Shopping.ShopD</DataLocation>
+<DefaultData>ShopDefaultData</DefaultData>
+<IdLocation>^Shopping.ShopD</IdLocation>
+<IndexLocation>^Shopping.ShopI</IndexLocation>
+<StreamLocation>^Shopping.ShopS</StreamLocation>
+<ExtentSize>5</ExtentSize>
+<Data name="ShopDefaultData">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Contacts</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="Contacts">
+<Selectivity>20.0000%,Address:20.0000%,Email:20.0000%,Phones:20.0000%,www:20.0000%</Selectivity>
+<AverageFieldSize>402.2,Address:47.4,Email:240.4,Phones:74,www:15.8</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>7.4</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

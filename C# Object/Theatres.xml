@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2015-11-20 19:05:33">
+<Class name="Theatres.Actor">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63876,46455.372682</TimeChanged>
+<TimeCreated>63875,46157.247424</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value=".NameGen()"/>
+</Property>
+
+<Property name="Address">
+<Type>Theatres.Address</Type>
+</Property>
+
+<Property name="Theatre">
+<Type>Theatres.Theatre</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Actors</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Gender">
+<Type>%Integer</Type>
+<Parameter name="DISPLAYLIST" value="-жіноча-чоловіча"/>
+<Parameter name="POPORDER" value="1"/>
+<Parameter name="VALUELIST" value="-2-1"/>
+</Property>
+
+<Method name="NameGen">
+<CodeMode>expression</CodeMode>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[##class(%Library.PopulateUtils).Name(i%Gender)
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Actors")</DataLocation>
+<DefaultData>ActorDefaultData</DefaultData>
+<IdLocation>^Theatres.TheatreC("Actors")</IdLocation>
+<IndexLocation>^Theatres.ActorI</IndexLocation>
+<StreamLocation>^Theatres.ActorS</StreamLocation>
+<ExtentSize>75</ExtentSize>
+<Data name="ActorDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Address</Value>
+</Value>
+<Value name="4">
+<Value>Gender</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>21.95</AverageFieldSize>
+</Property>
+<Property name="Address">
+<Selectivity>1.3333%,AptNo:2.5641%,City:3.8462%,Country:20.0000%,Street:1.3333%</Selectivity>
+<AverageFieldSize>40.44,AptNo:1.76,City:7.15,Country:7.91,Street:16.39</AverageFieldSize>
+</Property>
+<Property name="Gender">
+<Selectivity>50.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>1.3333%</Selectivity>
+<AverageFieldSize>16.39</AverageFieldSize>
+</Property>
+<Property name="Theatre">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>18.07</AverageFieldSize>
+</Property>
+<Property name="childsub">
+<Selectivity>1.3333%</Selectivity>
+<AverageFieldSize>1.88</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Theatres.Address">
+<Super>%SerialObject,%Populate</Super>
+<TimeChanged>63875,65945.580675</TimeChanged>
+<TimeCreated>63875,46091.864619</TimeCreated>
+
+<Property name="Country">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="POPSPEC" value="##class(Theatres.PopulateUtils).GenCountry()"/>
+</Property>
+
+<Property name="City">
+<Type>%String</Type>
+<Required>1</Required>
+</Property>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Property name="AptNo">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="Integer(1,50)"/>
+</Property>
+
+<Method name="PrintCard">
+<CodeMode>expression</CodeMode>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[..Street_", apt. "_..AptNo_$char(10, 13)_..City_" "_..Country
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>AddressState</State>
+<StreamLocation>^Theatres.AddressS</StreamLocation>
+<Data name="AddressState">
+<Value name="1">
+<Value>Country</Value>
+</Value>
+<Value name="2">
+<Value>City</Value>
+</Value>
+<Value name="3">
+<Value>Street</Value>
+</Value>
+<Value name="4">
+<Value>AptNo</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Theatres.Original">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63876,46455.304507</TimeChanged>
+<TimeCreated>63875,46290.984414</TimeCreated>
+
+<Property name="Author">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(Theatres.PopulateUtils).GenName()"/>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(Theatres.PopulateUtils).GenPlayName()"/>
+</Property>
+
+<Index name="NameIndex">
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Published">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="1607"/>
+<Parameter name="MINVAL" value="1594"/>
+</Property>
+
+<Property name="Synopsis">
+<Type>%Text</Type>
+<Parameter name="MAXLEN" value="1000"/>
+<Parameter name="POPSPEC" value="Mission()"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Theatres.OriginalD</DataLocation>
+<DefaultData>OriginalDefaultData</DefaultData>
+<IdLocation>^Theatres.OriginalD</IdLocation>
+<IndexLocation>^Theatres.OriginalI</IndexLocation>
+<StreamLocation>^Theatres.OriginalS</StreamLocation>
+<ExtentSize>5</ExtentSize>
+<Data name="OriginalDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Author</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+<Value name="4">
+<Value>Published</Value>
+</Value>
+<Value name="5">
+<Value>Synopsis</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.2</AverageFieldSize>
+</Property>
+<Property name="Author">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>19</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>7.4</AverageFieldSize>
+</Property>
+<Property name="Published">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>4</AverageFieldSize>
+</Property>
+<Property name="Synopsis">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>115.4</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="NameIdx">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="NameIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Project name="Theatres" LastModified="2015-11-19 18:09:25.415981" Target="##class(Theatres.PopulateUtils).CreateData()" TargetType="2">
+  <Items>
+    <ProjectItem name="Theatres.Address" type="CLS"></ProjectItem>
+    <ProjectItem name="Theatres.Actor" type="CLS"></ProjectItem>
+    <ProjectItem name="Theatres.Theatre" type="CLS"></ProjectItem>
+    <ProjectItem name="Theatres.Original" type="CLS"></ProjectItem>
+    <ProjectItem name="Theatres.Play" type="CLS"></ProjectItem>
+    <ProjectItem name="Theatres.PopulateUtils" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="Theatres.Play">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63876,46457.540941</TimeChanged>
+<TimeCreated>63875,46484.663573</TimeCreated>
+
+<Property name="Script">
+<Type>%Stream.GlobalCharacter</Type>
+</Property>
+
+<Property name="Personae">
+<Type>Theatres.Actor</Type>
+<Collection>array</Collection>
+</Property>
+
+<Property name="Theatre">
+<Type>Theatres.Theatre</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Plays</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="TheatreIndex">
+<Properties>Theatre</Properties>
+</Index>
+
+<Property name="Source">
+<Type>Theatres.Original</Type>
+</Property>
+
+<Property name="Staged">
+<Type>%Integer</Type>
+<Parameter name="POPSPEC" value="Integer(2000, 2015)"/>
+</Property>
+
+<Property name="Photos">
+<Type>%Library.GlobalBinaryStream</Type>
+<Collection>list</Collection>
+</Property>
+
+<Method name="OnPopulate">
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	
+	set ..Script = ##class(Theatres.PopulateUtils).GenScript(..Source.Name)
+	
+	do ..Personae.Clear()
+	set roles = ##class(Theatres.PopulateUtils).GenRole(..Source.Name)	
+	for i=1:1:$ll(roles)
+	{
+		do ..Personae.SetAt(..Theatre.Actors.GetAt($r(..Theatre.Actors.Count())+1), $li(roles, i))
+	}
+	
+	do ..Photos.Clear()
+	for i=1:1:(1+$Random(3)) {
+		do ..Photos.Insert(##class(Theatres.PopulateUtils).GenPhoto(..Source.Name_i))		
+	}	
+	
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Theatres.PlayD</DataLocation>
+<DefaultData>PlayDefaultData</DefaultData>
+<IdLocation>^Theatres.PlayD</IdLocation>
+<IndexLocation>^Theatres.PlayI</IndexLocation>
+<StreamLocation>^Theatres.PlayS</StreamLocation>
+<ExtentSize>10</ExtentSize>
+<Data name="Personae">
+<Attribute>Personae</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"Personae"</Subscript>
+</Data>
+<Data name="PlayDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Script</Value>
+</Value>
+<Value name="3">
+<Value>Theatre</Value>
+</Value>
+<Value name="4">
+<Value>Source</Value>
+</Value>
+<Value name="5">
+<Value>Staged</Value>
+</Value>
+<Value name="6">
+<Value>Photos</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<Property name="Photos">
+<Selectivity>10.0000%</Selectivity>
+<AverageFieldSize>54.8</AverageFieldSize>
+</Property>
+<Property name="Script">
+<Selectivity>10.0000%</Selectivity>
+</Property>
+<Property name="Source">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<Property name="Staged">
+<Selectivity>14.2857%</Selectivity>
+<AverageFieldSize>4</AverageFieldSize>
+</Property>
+<Property name="Theatre">
+<Selectivity>20.0000%</Selectivity>
+<AverageFieldSize>17.8</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="TheatreIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Theatres.PopulateUtils">
+<TimeChanged>63876,46398.013288</TimeChanged>
+<TimeCreated>63875,52878.430096</TimeCreated>
+
+<Method name="GenCountry">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t1 = $lb("Great Britain", "France", "Italy", "Germany", "Australia")
+	quit $li(t1,$$$PRand($ll(t1))+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenScript">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PlayName:%String</FormalSpec>
+<ReturnType>%Stream.GlobalCharacter</ReturnType>
+<Implementation><![CDATA[
+	if PlayName = "" quit ""
+	set fst = ##class(%Stream.FileCharacter).%New()
+	set fst.Filename = "D:\Temp\Plays\"_PlayName_".txt"
+	set st = ##class(%Stream.GlobalCharacter).%New()
+	do st.CopyFrom(fst)
+	quit st
+]]></Implementation>
+</Method>
+
+<Method name="GenPlayName">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Stream.GlobalCharacter</ReturnType>
+<Implementation><![CDATA[
+	set t1 = $lb("Coriolanus", "Othello", "Hamlet", "Tempest", "Macbeth")
+	quit $li(t1,$$$PRand($ll(t1))+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenPhoto">
+<Description>
+%Library.GlobalBinaryStream
+%Stream.GlobalBinary</Description>
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PlayName:%String</FormalSpec>
+<ReturnType>%Library.GlobalBinaryStream</ReturnType>
+<Implementation><![CDATA[
+	if PlayName = "" quit ""
+	set fst = ##class(%Library.FileBinaryStream).%New()
+	//set fst = ##class(%Stream.FileBinary).%New()
+	set fst.Filename = "D:\Temp\Plays\"_PlayName_".jpg"
+	//write fst.Filename, !
+	set st = ##class(%Library.GlobalBinaryStream).%New()
+	//set st = ##class(%Stream.GlobalBinary).%New()
+	do st.CopyFrom(fst)
+	quit st
+]]></Implementation>
+</Method>
+
+<Method name="GenRole">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>PlayName:%String</FormalSpec>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	if PlayName = "" quit ""
+	set Coriolanus = $lb("Caius Marcius", "Junius Brutus", "Menenius Agrippa", "Sicinius Velutus", "Titus Lartius", "Tullus Aufidius", "Valeria", "Virgilia", "Volumnia")
+	set Othello = $lb("Bianca", "Brabantio", "Cassio", "Emilia", "Gratiano", "Iago", "Othello", "Roderigo", "Lodovico", "Montano")
+	set Hamlet = $lb("Bernardo", "Claudius", "Hamlet", "Horatio", "Marcellus", "Ophelia", "Polonius", "Reynaldo", "Osric")
+	set Tempest = $lb("Adrian", "Alonso", "Antonio", "Ariel", "Caliban", "Ferdinand", "Miranda", "Prospero", "Sebastian", "Stephano")
+	set Macbeth = $lb("Angus", "Banquo", "Donalbain", "Duncan", "Lennox", "Macbeth", "Macduff", "Malcolm", "Ross", "Siward")
+	quit $case(PlayName, "Coriolanus":Coriolanus, "Othello":Othello, "Hamlet":Hamlet, "Tempest":Tempest, "Macbeth":Macbeth)
+]]></Implementation>
+</Method>
+
+<Method name="GenName">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[	quit "William Shakespeare"
+]]></Implementation>
+</Method>
+
+<Method name="CreateData">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	do ##class(Theatres.Original).%KillExtent()
+	do ##class(Theatres.Theatre).%KillExtent()
+	do ##class(Theatres.Play).%KillExtent()	
+	
+	do ##class(Theatres.Original).Populate(15)
+	do ##class(Theatres.Theatre).Populate(5)
+	do ##class(Theatres.Actor).Populate(75)
+	do ##class(Theatres.Play).Populate(10)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="Theatres.Theatre">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>63876,46455.32903</TimeChanged>
+<TimeCreated>63875,46210.397599</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+<Required>1</Required>
+<Parameter name="POPSPEC" value="Company()"/>
+</Property>
+
+<Index name="NameIndex">
+<IdKey>1</IdKey>
+<PrimaryKey>1</PrimaryKey>
+<Properties>Name</Properties>
+<Unique>1</Unique>
+</Index>
+
+<Property name="Address">
+<Type>Theatres.Address</Type>
+</Property>
+
+<Property name="Actors">
+<Type>Theatres.Actor</Type>
+<Cardinality>children</Cardinality>
+<Inverse>Theatre</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Plays">
+<Type>Theatres.Play</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Theatre</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Theatres.TheatreD</DataLocation>
+<DefaultData>TheatreDefaultData</DefaultData>
+<IdLocation>^Theatres.TheatreD</IdLocation>
+<IndexLocation>^Theatres.TheatreI</IndexLocation>
+<StreamLocation>^Theatres.TheatreS</StreamLocation>
+<ExtentSize>5</ExtentSize>
+<Data name="TheatreDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+<Value name="3">
+<Value>Address</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>18.2</AverageFieldSize>
+</Property>
+<Property name="Address">
+<Selectivity>20.0000%,AptNo:20.0000%,City:20.0000%,Country:33.3333%,Street:20.0000%</Selectivity>
+<AverageFieldSize>40.4,AptNo:2,City:8.2,Country:6,Street:17.2</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>18.2</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="NameIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+</Export>

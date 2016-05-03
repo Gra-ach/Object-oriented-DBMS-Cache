@@ -1,0 +1,11 @@
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\bin\Debug\WFAShopping.exe.config
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\bin\Debug\WFAShopping.exe
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\bin\Debug\WFAShopping.pdb
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.csprojResolveAssemblyReference.cache
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.Form1.resources
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.Properties.Resources.resources
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.csproj.GenerateResource.Cache
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.exe
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\obj\x86\Debug\WFAShopping.pdb
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\bin\Debug\InterSystems.Data.CacheClient.dll
+C:\Users\Gra-ach\Documents\Visual Studio 2010\Projects\WFAShopping\WFAShopping\bin\Debug\InterSystems.Data.CacheClient.xml
