@@ -1,0 +1,501 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2016-05-22 10:47:48">
+<Class name="FlowerShop.Address">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64051,80810.679411</TimeChanged>
+<TimeCreated>64050,73571.17121</TimeCreated>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^FlowerShop.AddressD</DataLocation>
+<DefaultData>AddressDefaultData</DefaultData>
+<IdLocation>^FlowerShop.AddressD</IdLocation>
+<IndexLocation>^FlowerShop.AddressI</IndexLocation>
+<StreamLocation>^FlowerShop.AddressS</StreamLocation>
+<ExtentSize>20</ExtentSize>
+<Data name="AddressDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>City</Value>
+</Value>
+<Value name="3">
+<Value>Street</Value>
+</Value>
+<Value name="4">
+<Value>Building</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.55</AverageFieldSize>
+</Property>
+<Property name="Building">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>4.95</AverageFieldSize>
+</Property>
+<Property name="City">
+<Selectivity>6.6667%</Selectivity>
+<AverageFieldSize>6.7</AverageFieldSize>
+</Property>
+<Property name="Street">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>16.05</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="FlowerShop.Flower">
+<Super>FlowerShop.Plant</Super>
+<TimeChanged>64059,81837.373263</TimeChanged>
+<TimeCreated>64050,73572.086653</TimeCreated>
+
+<Property name="Color">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(FlowerShop.PopUtils).GenColor()"/>
+</Property>
+
+<Property name="Blooming">
+<Type>%String</Type>
+<Collection>list</Collection>
+<Required>1</Required>
+<Parameter name="POPSPEC" value=":2"/>
+<Parameter name="VALUELIST" value="-Січень-Лютий-Березень-Квітень-Травень-Червень-Липень-Серпень-Вересень-Жовтень-Листопад-Грудень"/>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DefaultData>FlowerDefaultData</DefaultData>
+<ExtentSize>53</ExtentSize>
+<Data name="FlowerDefaultData">
+<Subscript>"Flower"</Subscript>
+<Value name="1">
+<Value>Color</Value>
+</Value>
+<Value name="2">
+<Value>Blooming</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>19</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>2</AverageFieldSize>
+</Property>
+<Property name="Age">
+<Selectivity>2.2727%</Selectivity>
+<AverageFieldSize>1.85</AverageFieldSize>
+</Property>
+<Property name="Blooming">
+<Selectivity>2.4390%</Selectivity>
+<AverageFieldSize>24.91</AverageFieldSize>
+</Property>
+<Property name="Color">
+<Selectivity>16.6667%</Selectivity>
+<AverageFieldSize>7.25</AverageFieldSize>
+</Property>
+<Property name="Latin">
+<Selectivity>12.5000%,Class:50.0000%,Family:16.6667%,Name:12.5000%</Selectivity>
+<AverageFieldSize>48.79,Class:9.51,Family:7.98,Name:7.81</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>12.5000%</Selectivity>
+<AverageFieldSize>7.26</AverageFieldSize>
+</Property>
+<Property name="Photo">
+<Selectivity>1.8868%</Selectivity>
+</Property>
+<Property name="PlantingDate">
+<Selectivity>1.8868%</Selectivity>
+<AverageFieldSize>5</AverageFieldSize>
+</Property>
+<Property name="Qty">
+<Selectivity>2.5000%</Selectivity>
+<AverageFieldSize>1.92</AverageFieldSize>
+</Property>
+<Property name="Shop">
+<Selectivity>6.6667%</Selectivity>
+<AverageFieldSize>1.34</AverageFieldSize>
+</Property>
+</Storage>
+</Class>
+
+
+<Class name="FlowerShop.LatinDesc">
+<Super>%SerialObject</Super>
+<TimeChanged>64050,74709.259673</TimeChanged>
+<TimeCreated>64050,73571.641073</TimeCreated>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="Class">
+<Type>%String</Type>
+</Property>
+
+<Property name="Family">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>LatinDescState</State>
+<StreamLocation>^FlowerShop.LatinDescS</StreamLocation>
+<Data name="LatinDescState">
+<Value name="1">
+<Value>Name</Value>
+</Value>
+<Value name="2">
+<Value>Class</Value>
+</Value>
+<Value name="3">
+<Value>Family</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Project name="FlowerShop" LastModified="2016-05-13 22:26:04.843526" Target="##class(FlowerShop.PopUtils).PopulateData()" TargetType="2">
+  <Items>
+    <ProjectItem name="FlowerShop.Address" type="CLS"></ProjectItem>
+    <ProjectItem name="FlowerShop.Flower" type="CLS"></ProjectItem>
+    <ProjectItem name="FlowerShop.LatinDesc" type="CLS"></ProjectItem>
+    <ProjectItem name="FlowerShop.Plant" type="CLS"></ProjectItem>
+    <ProjectItem name="FlowerShop.PopUtils" type="CLS"></ProjectItem>
+    <ProjectItem name="FlowerShop.Shop" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="FlowerShop.Plant">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64051,80810.973224</TimeChanged>
+<TimeCreated>64050,73569.712932</TimeCreated>
+
+<Property name="PlantingDate">
+<Type>%Date</Type>
+<Parameter name="MAXVAL" value="$h"/>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+</Property>
+
+<Property name="Age">
+<Type>%Integer</Type>
+<Calculated>1</Calculated>
+<SqlComputeCode>set {*} = $h - {PlantingDate} \365.25</SqlComputeCode>
+<SqlComputed>1</SqlComputed>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Property name="Latin">
+<Type>FlowerShop.LatinDesc</Type>
+</Property>
+
+<Property name="Qty">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="100"/>
+<Parameter name="MINVAL" value="0"/>
+</Property>
+
+<Property name="Fertilizer">
+<Type>%Float</Type>
+<Collection>array</Collection>
+<Parameter name="POPSPEC" value=":5:##class(FlowerShop.PopUtils).GenFertilizerName()"/>
+</Property>
+
+<Property name="Shop">
+<Type>FlowerShop.Shop</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Plants</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="ShopIndex">
+<Properties>Shop</Properties>
+</Index>
+
+<Property name="Photo">
+<Type>%Stream.GlobalBinary</Type>
+</Property>
+
+<Method name="AgeGet">
+<CodeMode>expression</CodeMode>
+<ReturnType>%Integer</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[$h-..PlantingDate \ 365.25
+]]></Implementation>
+</Method>
+
+<Method name="OnPopulate">
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[ 	quit ##class(FlowerShop.PopUtils).GenPlantName($this)
+]]></Implementation>
+</Method>
+
+<Query name="GetPlantsInShop">
+<Type>%SQLQuery</Type>
+<FormalSpec>ID:%Integer</FormalSpec>
+<SqlProc>1</SqlProc>
+<SqlQuery><![CDATA[	select p.ID, p.Name, p.Age, P.Qty, p.Latin_class, p.Latin_Family, p.Latin_Name, null Color, null Blooming, p.Photo
+      from FlowerShop.Plant p
+     where p.Shop -> ID = :ID
+       and p.x__classname is null
+    union
+    select p.ID, p.Name, p.Age, P.Qty, p.Latin_class, p.Latin_Family, p.Latin_Name, p.Color, $Listtostring(p.Blooming, ', '), p.Photo
+      from FlowerShop.Flower p
+     where p.Shop -> ID = :ID]]></SqlQuery>
+</Query>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^FlowerShop.PlantD</DataLocation>
+<DefaultData>PlantDefaultData</DefaultData>
+<IdLocation>^FlowerShop.PlantD</IdLocation>
+<IndexLocation>^FlowerShop.PlantI</IndexLocation>
+<StreamLocation>^FlowerShop.PlantS</StreamLocation>
+<ExtentSize>20</ExtentSize>
+<Data name="Fertilizer">
+<Attribute>Fertilizer</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"Fertilizer"</Subscript>
+</Data>
+<Data name="PlantDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>PlantingDate</Value>
+</Value>
+<Value name="3">
+<Value>Latin</Value>
+</Value>
+<Value name="4">
+<Value>Qty</Value>
+</Value>
+<Value name="5">
+<Value>Shop</Value>
+</Value>
+<Value name="6">
+<Value>Name</Value>
+</Value>
+<Value name="7">
+<Value>Photo</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.55</AverageFieldSize>
+</Property>
+<Property name="Age">
+<Selectivity>5.8824%</Selectivity>
+<AverageFieldSize>1.85</AverageFieldSize>
+</Property>
+<Property name="Latin">
+<Selectivity>33.3333%,Class:50.0000%,Family:33.3333%,Name:33.3333%</Selectivity>
+<AverageFieldSize>51.15,Class:9.2,Family:9.15,Name:8.45</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>33.3333%</Selectivity>
+<AverageFieldSize>7.9</AverageFieldSize>
+</Property>
+<Property name="Photo">
+<Selectivity>5.0000%</Selectivity>
+</Property>
+<Property name="PlantingDate">
+<Selectivity>5.0000%</Selectivity>
+<AverageFieldSize>5</AverageFieldSize>
+</Property>
+<Property name="Qty">
+<Selectivity>5.5556%</Selectivity>
+<AverageFieldSize>1.95</AverageFieldSize>
+</Property>
+<Property name="Shop">
+<Selectivity>8.3333%</Selectivity>
+<AverageFieldSize>1.35</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="ShopIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="FlowerShop.PopUtils">
+<TimeChanged>64051,80819.397242</TimeChanged>
+<TimeCreated>64050,73795.749088</TimeCreated>
+
+<Method name="GenShopName">
+<Description>
+генерація назви магазину</Description>
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t = $lb("Мальва", "Flowers Love", "Камелія", "Бонсай", "Німфея", "Сад. Город", "Садиво", "Тавія", "Флорідея", "Флора")
+	quit $lg(t, $r($ll(t)-1)+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenFertilizerName">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	set t = $lb("Сульфат амонія", "Натрієва селітра", "КАС", "Калій хлористий", "Сульфат калія", "Калімаг", "Поташ", "Каініт", "Сільвініт", "Зола", "Нітрофос", "Аммофос", "Метафосфат амонія", "Крісталін", "ЖКУ", "Суперагро", "Добрі добрива", "Сульфад цинку")
+	quit $lg(t, $r($ll(t)-1)+1)
+]]></Implementation>
+</Method>
+
+<Method name="GenPlantName">
+<ClassMethod>1</ClassMethod>
+<FormalSpec>plant:FlowerShop.Plant</FormalSpec>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+	
+	set a = $ClassName(plant)
+	if (a = "FlowerShop.Plant")
+	{
+		set t = $lb("Araucaria", "Asparagus", "Dracaena", "Dieffenbachia")		
+		set plant.Latin.Name = $lg(t, $r($ll(t)-1)+1)
+		set plant.Latin.Class = $case(plant.Latin.Name, "Araucaria":"Хвойні", "Asparagus":"Однодольні", "Dracaena":"Однодольні", :"Error")
+		set plant.Latin.Family = $case(plant.Latin.Name, "Araucaria":"Араукарієві", "Asparagus":"Спаржеві", "Dracaena":"Холодкові", :"Error")
+		set plant.Name = $case(plant.Latin.Name, "Araucaria":"Араукарія", "Asparagus":"Аспарагус", "Dracaena":"Драцена", :"Error")	
+	} elseif (a = "FlowerShop.Flower")
+	{
+		set t = $lb("Dahlia", "Gerbera", "Iris", "Tulipa", "Orchidaceae", "Liabeae", "Melichrus", "Phalaenopsis", "Vanilla")		
+		set plant.Latin.Name = $lg(t, $r($ll(t)-1)+1)
+		set plant.Latin.Class = $case(plant.Latin.Name, "Vanilla":"Однодольні", "Phalaenopsis":"Однодольні", "Melichrus":"Двудольні", "Liabeae":"Двудольні", "Dahlia":"Двудольні", "Gerbera":"Двудольні", "Iris":"Однодольні", "Tulipa":"Однодольні", "Orchidaceae":"Однодольні", :"Error")
+		set plant.Latin.Family = $case(plant.Latin.Name, "Vanilla":"Орхідні", "Phalaenopsis":"Орхідні", "Melichrus":"Верескові", "Liabeae":"Астрові", "Dahlia":"Астрові", "Gerbera":"Астрові", "Iris":"Ірісові", "Tulipa":"Лілейні", "Orchidaceae":"Зозулинцеві", :"Error")
+		set plant.Name = $case(plant.Latin.Name, "Vanilla":"Ваніль", "Phalaenopsis":"Фаленопсіс", "Melichrus":"Меліхрус", "Liabeae":"Муннозія", "Dahlia":"Жоржина", "Gerbera":"Гербера", "Iris":"Іріс", "Tulipa":"Тюльпан", "Orchidaceae":"Орхідея", :"Error")	
+	} else {
+		q $$$ERROR("Немає такого класу")	
+	}
+	set str = ##class(%Stream.FileBinary).%New()
+	set str.Filename = "D:\Temp\Plants\"_plant.Latin.Name_".jpg"
+	do plant.Photo.CopyFrom(str)
+	kill str
+	quit $$$OK
+]]></Implementation>
+</Method>
+
+<Method name="GenColor">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%String</ReturnType>
+<Implementation><![CDATA[
+	s t=$lb("Червоний", "Зелений", "Синій", "Жовтий", "Багряний", "Блакитний", "Коричневий")
+ 	quit $lg(t, $r($ll(t)-1)+1)
+]]></Implementation>
+</Method>
+
+<Method name="PopulateData">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+   do ##class(FlowerShop.Address).%KillExtent()
+   do ##class(FlowerShop.Shop).%KillExtent()
+   do ##class(FlowerShop.Plant).%KillExtent()
+   
+   Do ##class(FlowerShop.Address).Populate(20) 
+   Do ##class(FlowerShop.Shop).Populate(15)
+   Do ##class(FlowerShop.Plant).Populate(20)
+   Do ##class(FlowerShop.Flower).Populate(70)
+]]></Implementation>
+</Method>
+</Class>
+
+
+<Class name="FlowerShop.Shop">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64059,63560.21998</TimeChanged>
+<TimeCreated>64050,73570.832308</TimeCreated>
+
+<Property name="Address">
+<Type>FlowerShop.Address</Type>
+</Property>
+
+<Property name="Name">
+<Type>%String</Type>
+<Parameter name="POPSPEC" value="##class(FlowerShop.PopUtils).GenShopName()"/>
+</Property>
+
+<Property name="Plants">
+<Type>FlowerShop.Plant</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Shop</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^FlowerShop.ShopD</DataLocation>
+<DefaultData>ShopDefaultData</DefaultData>
+<IdLocation>^FlowerShop.ShopD</IdLocation>
+<IndexLocation>^FlowerShop.ShopI</IndexLocation>
+<StreamLocation>^FlowerShop.ShopS</StreamLocation>
+<ExtentSize>15</ExtentSize>
+<Data name="ShopDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Address</Value>
+</Value>
+<Value name="3">
+<Value>Name</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.4</AverageFieldSize>
+</Property>
+<Property name="Address">
+<Selectivity>8.3333%</Selectivity>
+<AverageFieldSize>1.47</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>14.2857%</Selectivity>
+<AverageFieldSize>7.67</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+
+<Projection name="JProj">
+<Type>%Projection.Java</Type>
+<Parameter name="ROOTDIR" value="D:\Workspace\RelSample\src\"/>
+</Projection>
+</Class>
+</Export>

@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-32) 2015.2 (Build 664U)" ts="2016-05-22 22:29:52">
+<Class name="Parking.Address">
+<Super>%SerialObject,%Populate</Super>
+<TimeChanged>64051,51522.154742</TimeChanged>
+<TimeCreated>64051,51391.722414</TimeCreated>
+
+<Property name="City">
+<Type>%String</Type>
+</Property>
+
+<Property name="Street">
+<Type>%String</Type>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheSerialState</Type>
+<State>AddressState</State>
+<StreamLocation>^Parking.AddressS</StreamLocation>
+<Data name="AddressState">
+<Structure>listnode</Structure>
+<Subscript/>
+<Value name="1">
+<Value>City</Value>
+</Value>
+<Value name="2">
+<Value>Street</Value>
+</Value>
+</Data>
+</Storage>
+</Class>
+
+
+<Class name="Parking.Car">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64060,44677.6427</TimeChanged>
+<TimeCreated>64051,51393.314766</TimeCreated>
+
+<Property name="Garage">
+<Type>Parking.Garage</Type>
+<Cardinality>one</Cardinality>
+<Inverse>Cars</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Index name="GarageIndex">
+<Properties>Garage</Properties>
+</Index>
+
+<Property name="Photo">
+<Type>%Stream.GlobalBinary</Type>
+<Parameter name="POPSPEC" value="##class(Parking.PopUtils).GenPhoto()"/>
+</Property>
+
+<Property name="Dimensions">
+<Type>%Float</Type>
+<Collection>list</Collection>
+</Property>
+
+<Property name="Owner">
+<Type>Parking.Person</Type>
+</Property>
+
+<Method name="OnPopulate">
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	do ..Dimensions.Clear()
+	do ..Dimensions.Insert($R(200)+1/100)
+	do ..Dimensions.Insert($R(400)+1/100)
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Parking.CarD</DataLocation>
+<DefaultData>CarDefaultData</DefaultData>
+<IdLocation>^Parking.CarD</IdLocation>
+<IndexLocation>^Parking.CarI</IndexLocation>
+<StreamLocation>^Parking.CarS</StreamLocation>
+<ExtentSize>100</ExtentSize>
+<Data name="CarDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Garage</Value>
+</Value>
+<Value name="3">
+<Value>Photo</Value>
+</Value>
+<Value name="4">
+<Value>Dimensions</Value>
+</Value>
+<Value name="5">
+<Value>Owner</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.92</AverageFieldSize>
+</Property>
+<Property name="Dimensions">
+<Selectivity>1.0000%</Selectivity>
+<AverageFieldSize>8.42</AverageFieldSize>
+</Property>
+<Property name="Garage">
+<Selectivity>10.0000%</Selectivity>
+<AverageFieldSize>4.09</AverageFieldSize>
+</Property>
+<Property name="Owner">
+<Selectivity>2.1739%</Selectivity>
+<AverageFieldSize>1.81</AverageFieldSize>
+</Property>
+<Property name="Photo">
+<Selectivity>1.0000%</Selectivity>
+</Property>
+<SQLMap name="GarageIndex">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Parking.Garage">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64060,44644.223223</TimeChanged>
+<TimeCreated>64051,51392.206227</TimeCreated>
+
+<Property name="Address">
+<Type>Parking.Address</Type>
+</Property>
+
+<Property name="Places">
+<Type>%Integer</Type>
+<Parameter name="MAXVAL" value="100"/>
+<Parameter name="MINVAL" value="1"/>
+</Property>
+
+<Property name="Log">
+<Type>%Stream.GlobalCharacter</Type>
+</Property>
+
+<Property name="Owner">
+<Type>Parking.Owner</Type>
+<Cardinality>parent</Cardinality>
+<Inverse>Garages</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Property name="Cars">
+<Type>Parking.Car</Type>
+<Cardinality>many</Cardinality>
+<Inverse>Garage</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Projection name="JProj">
+<Type>%Projection.Java</Type>
+<Parameter name="ROOTDIR" value="D:\Workspace\ObjSample\src\"/>
+</Projection>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>{%%PARENT}("Parking.Owner.Garages")</DataLocation>
+<DefaultData>ParkingDefaultData</DefaultData>
+<IdLocation>^Parking.OwnerC("Garages")</IdLocation>
+<IndexLocation>^Parking.GarageI</IndexLocation>
+<StreamLocation>^Parking.GarageS</StreamLocation>
+<ExtentSize>10</ExtentSize>
+<Data name="ParkingDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Address</Value>
+</Value>
+<Value name="3">
+<Value>Places</Value>
+</Value>
+<Value name="4">
+<Value>Log</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>4.1</AverageFieldSize>
+</Property>
+<Property name="Address">
+<Selectivity>10.0000%,City:11.1111%,Street:10.0000%</Selectivity>
+<AverageFieldSize>26.5,City:6.3,Street:16.2</AverageFieldSize>
+</Property>
+<Property name="Log">
+<Selectivity>100.0000%</Selectivity>
+</Property>
+<Property name="Owner">
+<Selectivity>33.3333%</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="Places">
+<Selectivity>11.1111%</Selectivity>
+<AverageFieldSize>1.9</AverageFieldSize>
+</Property>
+<Property name="childsub">
+<Selectivity>10.0000%</Selectivity>
+<AverageFieldSize>1.1</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Parking.Owner">
+<Super>Parking.Person</Super>
+<TimeChanged>64060,44643.841667</TimeChanged>
+<TimeCreated>64051,51392.933923</TimeCreated>
+
+<Property name="Garages">
+<Type>Parking.Garage</Type>
+<Cardinality>children</Cardinality>
+<Inverse>Owner</Inverse>
+<Relationship>1</Relationship>
+</Property>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<ExtentSize>3</ExtentSize>
+<Property name="%%CLASSNAME">
+<Selectivity>100.0000%</Selectivity>
+<AverageFieldSize>15</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>33.3333%</Selectivity>
+<AverageFieldSize>14.33</AverageFieldSize>
+</Property>
+</Storage>
+</Class>
+
+
+<Project name="Parking" LastModified="2016-05-22 13:33:18.862031" Target="##class(Parking.PopUtils).GenLog()" TargetType="2">
+  <Items>
+    <ProjectItem name="Parking.Address" type="CLS"></ProjectItem>
+    <ProjectItem name="Parking.Car" type="CLS"></ProjectItem>
+    <ProjectItem name="Parking.Garage" type="CLS"></ProjectItem>
+    <ProjectItem name="Parking.Owner" type="CLS"></ProjectItem>
+    <ProjectItem name="Parking.Person" type="CLS"></ProjectItem>
+    <ProjectItem name="Parking.PopUtils" type="CLS"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Class name="Parking.Person">
+<Super>%Persistent,%Populate</Super>
+<TimeChanged>64060,44644.067234</TimeChanged>
+<TimeCreated>64051,51392.558919</TimeCreated>
+
+<Property name="Name">
+<Type>%Name</Type>
+</Property>
+
+<Property name="Contacts">
+<Type>%String</Type>
+<Collection>array</Collection>
+</Property>
+
+<Method name="OnPopulate">
+<ReturnType>%Status</ReturnType>
+<ServerOnly>1</ServerOnly>
+<Implementation><![CDATA[
+	do ..Contacts.Clear()
+	do ..Contacts.SetAt("044-"_($r(899)+100)_"-"_($r(89)+10)_"-"_($r(89)+10), "міський номер")
+	do ..Contacts.SetAt("066-"_($r(899)+100)_"-"_($r(89)+10)_"-"_($r(89)+10), "мобільний номер")
+	do ..Contacts.SetAt($tr(..Name,", .", "_")_"@sample.com", "e-mail")
+	q $$$OK
+]]></Implementation>
+</Method>
+
+<Storage name="Default">
+<Type>%Library.CacheStorage</Type>
+<DataLocation>^Parking.PersonD</DataLocation>
+<DefaultData>PersonDefaultData</DefaultData>
+<IdLocation>^Parking.PersonD</IdLocation>
+<IndexLocation>^Parking.PersonI</IndexLocation>
+<StreamLocation>^Parking.PersonS</StreamLocation>
+<ExtentSize>53</ExtentSize>
+<Data name="Contacts">
+<Attribute>Contacts</Attribute>
+<Structure>subnode</Structure>
+<Subscript>"Contacts"</Subscript>
+</Data>
+<Data name="PersonDefaultData">
+<Value name="1">
+<Value>%%CLASSNAME</Value>
+</Value>
+<Value name="2">
+<Value>Name</Value>
+</Value>
+</Data>
+<Property name="%%CLASSNAME">
+<Selectivity>5.6604%</Selectivity>
+<OutlierSelectivity>.943396:</OutlierSelectivity>
+<AverageFieldSize>.85</AverageFieldSize>
+</Property>
+<Property name="%%ID">
+<Selectivity>1</Selectivity>
+<AverageFieldSize>1.83</AverageFieldSize>
+</Property>
+<Property name="Name">
+<Selectivity>1.8868%</Selectivity>
+<AverageFieldSize>16.43</AverageFieldSize>
+</Property>
+<SQLMap name="IDKEY">
+<BlockCount>-4</BlockCount>
+</SQLMap>
+</Storage>
+</Class>
+
+
+<Class name="Parking.PopUtils">
+<TimeChanged>64060,46969.061542</TimeChanged>
+<TimeCreated>64051,74282.715178</TimeCreated>
+
+<Method name="PopulateData">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	do ##class(Parking.Person).%KillExtent()
+	do ##class(Parking.Car).%KillExtent()
+	do ##class(Parking.Garage).%KillExtent()
+	
+	w ##class(Parking.Owner).Populate(3)	
+	w ##class(Parking.Person).Populate(50)
+	w ##class(Parking.Garage).Populate(10)
+	w ##class(Parking.Car).Populate(100)
+	do ..GenLog()
+]]></Implementation>
+</Method>
+
+<Method name="GenLog">
+<ClassMethod>1</ClassMethod>
+<Implementation><![CDATA[
+	&sql(DECLARE C1 CURSOR FOR
+          SELECT %ID
+            INTO :id
+            FROM Parking.Garage)
+
+ &sql(OPEN C1)
+ &sql(FETCH C1)
+
+ While (SQLCODE = 0) {
+    set g = ##class(Parking.Garage).%OpenId(id)
+    w !, id, "  ", g.Cars.Count(), !
+    if g.Cars.Count() > 0
+    {
+	 	for i=1:1:20
+	 	{
+	 	   set s = "Машина №"_g.Cars.GetAt($r(g.Cars.Count()-1)+1).%Id()_$case(+$r(2), 0:" заїхала в", 1:" залишила ")_" гараж" 
+	 	   do g.Log.WriteLine(s)  
+	 	}
+	}             
+    do g.%Save()
+    &sql(FETCH C1)
+ }
+    
+ &sql(CLOSE C1)
+]]></Implementation>
+</Method>
+
+<Method name="GenPhoto">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Stream.GlobalBinary</ReturnType>
+<Implementation><![CDATA[
+	set str = ##class(%Stream.FileBinary).%New()
+	set path = "D:\Temp\Cars\"_($r(29)+1)_".jpg"
+	set str.Filename = path	
+	set gstr = ##class(%Stream.GlobalBinary).%New()
+	do gstr.CopyFrom(str)
+	kill str
+	q gstr
+]]></Implementation>
+</Method>
+</Class>
+</Export>
